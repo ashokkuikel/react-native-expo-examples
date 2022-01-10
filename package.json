@@ -1,12 +1,25 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "version": "0.0.1-dev",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "mobile": "expo start --android --ios",
     "eject": "expo eject"
-  },
+    "clean": "git clean -dfqx --exclude=.yarn/cache",
+    "format:c": "clang-format -i $(git ls-files '*.cpp' '*.h' '*.m' '*.mm')",
+    "format:js": "prettier --write $(git ls-files '*.js' '*.yml' 'test/**/*.json')",
+    "format:swift": "swiftformat --swiftversion 5.5 ios macos",
+    "lint:commit": "git log --format='%s' origin/trunk..HEAD | tail -1 | commitlint",
+    "lint:js": "eslint $(git ls-files '*.js') && tsc",
+    "lint:kt": "ktlint --relative --verbose 'android/app/src/**/*.kt'",
+    "lint:rb": "bundle exec rubocop",
+    "lint:swift": "swiftlint",
+    "set-react-version": "node scripts/set-react-version.js",
+    "test:js": "jest",
+    "test:rb": "bundle exec ruby -Ilib:test test/test_test_app.rb"
+  }
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/slider": "4.1.7",
@@ -39,5 +52,8 @@
     "@babel/core": "^7.16.0",
     "babel-preset-expo": "^8.5.1"
   },
-  "private": true
+  "private": true,
+  "release": {
+    "tagFormat": "${version}"
+  }
 }
